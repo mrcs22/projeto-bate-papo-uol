@@ -1,3 +1,37 @@
+start();
+
+function start() {
+  let onlineUsers = getOnlineUsers();
+  renderOnlineUsers(onlineUsers);
+}
+
+function getOnlineUsers() {
+  return ["João", "Maria", "carla", "ana", "pedro", "jão"];
+}
+
+function renderOnlineUsers(onlineUsers) {
+  usersUl = document.querySelector(".users ul");
+  onlineUsers.forEach((user) => {
+    let li = document.createElement("li");
+    li.setAttribute("onclick", "selectMenuItem(this)");
+
+    let icon = document.createElement("ion-icon");
+    icon.setAttribute("name", "person-circle-sharp");
+
+    let span = document.createElement("span");
+    span.innerHTML = user;
+
+    let checkMark = document.createElement("img");
+    checkMark.setAttribute("src", "./img/check.svg");
+
+    li.appendChild(icon);
+    li.appendChild(span);
+    li.appendChild(checkMark);
+
+    usersUl.appendChild(li);
+  });
+}
+
 function showSideMenu() {
   const sidebar = document.querySelector(".sidebar");
   const cover = document.querySelector(".cover");
