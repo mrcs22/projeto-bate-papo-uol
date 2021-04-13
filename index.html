@@ -73,10 +73,10 @@
         <strong>Escolha um contato para enviar mensagem:</strong>
       </div>
       <div class="users">
-        <ul>
+        <ul class="onlineUsers">
           <li class="selected" onclick="selectMenuItem(this)">
             <ion-icon name="people"></ion-icon>
-            Todos
+            <span>Todos</span>
             <img src="./img/check.svg" alt="" />
           </li>
         </ul>
@@ -88,12 +88,12 @@
         <ul>
           <li class="selected" onclick="selectMenuItem(this)">
             <ion-icon name="lock-open"></ion-icon>
-            Público
+            <span>Público</span>
             <img src="./img/check.svg" alt="" />
           </li>
           <li onclick="selectMenuItem(this)">
             <ion-icon name="lock-closed"></ion-icon>
-            Reservadamente
+            <span>Reservadamente</span>
             <img src="./img/check.svg" alt="" />
           </li>
         </ul>

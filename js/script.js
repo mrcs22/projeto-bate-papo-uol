@@ -57,4 +57,19 @@ function selectMenuItem(item) {
 
   lastSelectedItem.classList.remove("selected");
   item.classList.add("selected");
+
+  renderMessageParameters(item, parentElement.classList.value);
+}
+
+function renderMessageParameters(item, itemType) {
+  let itemParameter = item.querySelector("span").innerHTML;
+  let parameterHolder = null;
+
+  if (itemType === "onlineUsers") {
+    parameterHolder = document.querySelector(".footer div p span:first-child");
+  } else {
+    parameterHolder = document.querySelector(".footer div p span:last-child");
+  }
+
+  parameterHolder.innerHTML = itemParameter;
 }
