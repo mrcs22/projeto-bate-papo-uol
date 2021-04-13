@@ -3,6 +3,9 @@ start();
 function start() {
   let onlineUsers = getOnlineUsers();
   renderOnlineUsers(onlineUsers);
+
+  let messages = getMessages();
+  renderMessages(messages);
 }
 
 function getOnlineUsers() {
@@ -31,6 +34,81 @@ function renderOnlineUsers(onlineUsers) {
 
     usersList.appendChild(li);
   });
+}
+
+function getMessages() {
+  return [
+    {
+      from: "Maria",
+      to: "João",
+      status: "public",
+      timestamp: "09:22:38",
+      text: "Oi João :)",
+    },
+    {
+      from: "João",
+      to: "Maria",
+      status: "restricted",
+      timestamp: "09:22:48",
+      text: "Oi gatinha quer tc?",
+    },
+    {
+      from: "Maria",
+      to: "Todos",
+      status: "status",
+      timestamp: "09:22:48",
+      text: "Sai da sala...",
+    },
+  ];
+}
+
+function renderMessages(messages) {
+  let content = document.querySelector(".content");
+  let messageHtml = null;
+
+  messages.forEach((message) => {
+    if (message.status === "status") {
+      messageHtml = makeStausMessage(message);
+    } else {
+      messageHtml = makeUserMessage(message);
+    }
+
+    content.innerHTML += messageHtml;
+  });
+}
+
+function makeStausMessage(message) {
+  const statusMessage = `<li class=${message.status}>
+          <p>
+            <span> (${message.timestamp}) </span>
+            <span>
+              <strong>${message.from}</strong>
+            </span>
+            ${message.text}
+          </p>
+        </li>`;
+
+  return statusMessage;
+}
+
+function makeUserMessage(message) {
+  let messageStatus = "";
+
+  if (message.status === "restricted") {
+    messageStatus = "reservadamente";
+  }
+
+  const userMessage = `<li class=${message.status}>
+          <p>
+            <span> (${message.timestamp}) </span>
+            <span>
+              <strong>${message.from}</strong> ${messageStatus} para <strong>${message.to}</strong>:
+            </span>
+            ${message.text}
+          </p>
+        </li>`;
+
+  return userMessage;
 }
 
 function showSideMenu() {
