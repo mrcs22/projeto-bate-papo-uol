@@ -23,6 +23,7 @@ body {
 }
 .header ion-icon {
   font-size: 44.5px;
+  cursor: pointer;
 }
 
 .content {
@@ -143,11 +144,15 @@ form input:last-child {
 
 .sidebar {
   position: fixed;
-  right: 0;
+  right: -259px;
   top: 0;
   width: 259px;
   height: 100vh;
   background-color: #fff;
+  transition: all 0.5s;
+}
+.show {
+  right: 0px;
 }
 .sidebar div {
   display: flex;

@@ -17,7 +17,7 @@
   <body>
     <div class="header">
       <img src="./img/logo.svg" alt="Bate-papo uol" />
-      <ion-icon name="people"></ion-icon>
+      <ion-icon name="people" onclick="showSideMenu()"></ion-icon>
     </div>
     <div class="content">
       <ul>
@@ -62,7 +62,7 @@
         <input type="submit" value="Entrar" />
       </form>
     </div>
-    <div class="cover"></div>
+    <div class="cover ocult" onclick="hideSideMenu()"></div>
     <div class="sidebar">
       <div>
         <strong>Escolha um contato para enviar mensagem:</strong>
@@ -107,5 +107,6 @@
     </div>
 
     <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
+    <script src="./js/script.js"></script>
   </body>
 </html>
