@@ -71,12 +71,22 @@ body {
   box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.05);
   background-color: #fff;
 }
+.footer div {
+  width: calc(100% - 45px);
+}
 .footer input {
   height: 30px;
-  width: calc(100% - 45px);
+  width: 100%;
   font-size: 18px;
   border: none;
 }
+.footer p {
+  font-size: 14px;
+  line-height: 25px;
+  font-weight: 300;
+  color: #505050;
+}
+
 .footer ::placeholder {
   font-family: inherit;
   font-style: italic;

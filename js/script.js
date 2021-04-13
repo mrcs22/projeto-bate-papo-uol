@@ -6,11 +6,12 @@ function start() {
 }
 
 function getOnlineUsers() {
-  return ["João", "Maria", "carla", "ana", "pedro", "jão"];
+  return ["João", "Maria"];
 }
 
 function renderOnlineUsers(onlineUsers) {
-  usersUl = document.querySelector(".users ul");
+  usersList = document.querySelector(".users ul");
+
   onlineUsers.forEach((user) => {
     let li = document.createElement("li");
     li.setAttribute("onclick", "selectMenuItem(this)");
@@ -28,7 +29,7 @@ function renderOnlineUsers(onlineUsers) {
     li.appendChild(span);
     li.appendChild(checkMark);
 
-    usersUl.appendChild(li);
+    usersList.appendChild(li);
   });
 }
 
