@@ -56,7 +56,7 @@ body {
 .content .status {
   background-color: #dcdcdc;
 }
-.content .restricted {
+.content .private_message {
   background-color: #ffdede;
 }
 

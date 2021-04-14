@@ -45,38 +45,20 @@ function renderOnlineUsers(onlineUsers) {
   });
 }
 
-function getMessages() {
-  return [
-    {
-      from: "Maria",
-      to: "João",
-      status: "public",
-      timestamp: "09:22:38",
-      text: "Oi João :)",
-    },
-    {
-      from: "João",
-      to: "Maria",
-      status: "restricted",
-      timestamp: "09:22:48",
-      text: "Oi gatinha quer tc?",
-    },
-    {
-      from: "Maria",
-      to: "Todos",
-      status: "status",
-      timestamp: "09:22:48",
-      text: "Sai da sala...",
-    },
-  ];
+async function renderMessages() {
+  const response = await axios.get(
+    "https://mock-api.bootcamp.respondeai.com.br/api/v2/uol/messages"
+  );
+
+  populateChat(response.data);
 }
 
-function renderMessages(messages) {
+function populateChat(messages) {
   let content = document.querySelector(".content");
   let messageHtml = null;
 
   messages.forEach((message) => {
-    if (message.status === "status") {
+    if (message.type === "status") {
       messageHtml = makeStausMessage(message);
     } else {
       messageHtml = makeUserMessage(message);
@@ -87,9 +69,9 @@ function renderMessages(messages) {
 }
 
 function makeStausMessage(message) {
-  const statusMessage = `<li class=${message.status}>
+  const statusMessage = `<li class=${message.type}>
           <p>
-            <span> (${message.timestamp}) </span>
+            <span> (${message.time}) </span>
             <span>
               <strong>${message.from}</strong>
             </span>
@@ -101,17 +83,17 @@ function makeStausMessage(message) {
 }
 
 function makeUserMessage(message) {
-  let messageStatus = "";
+  let messageType = "";
 
-  if (message.status === "restricted") {
-    messageStatus = "reservadamente";
+  if (message.type === "private_message") {
+    messageType = "reservadamente";
   }
 
-  const userMessage = `<li class=${message.status}>
+  const userMessage = `<li class=${message.type}>
           <p>
-            <span> (${message.timestamp}) </span>
+            <span> (${message.time}) </span>
             <span>
-              <strong>${message.from}</strong> ${messageStatus} para <strong>${message.to}</strong>:
+              <strong>${message.from}</strong> ${messageType} para <strong>${message.to}</strong>:
             </span>
             ${message.text}
           </p>
