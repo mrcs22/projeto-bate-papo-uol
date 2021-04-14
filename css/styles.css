@@ -162,6 +162,7 @@ form input:last-child {
   width: 259px;
   height: 100vh;
   background-color: #fff;
+  z-index: 100;
   transition: all 0.4s;
 }
 .show {

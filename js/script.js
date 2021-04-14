@@ -1,6 +1,8 @@
 start();
 
 function start() {
+  renderChat();
+
   let onlineUsers = getOnlineUsers();
   renderOnlineUsers(onlineUsers);
 
@@ -208,4 +210,107 @@ function scrollPage() {
   const contentDiv = document.querySelector(".content");
 
   contentDiv.scrollTo(0, contentDiv.scrollHeight);
+}
+
+function renderChat() {
+  const body = document.querySelector("body");
+
+  const htmlElements = [makeHeader(), makeContent(), makeFooter(), makeCover()];
+
+  htmlElements.forEach((element) => body.appendChild(element));
+}
+
+function makeHeader() {
+  const div = document.createElement("div");
+  div.classList.add("header");
+
+  const logo = document.createElement("img");
+  logo.setAttribute("src", "./img/logo.svg");
+  logo.setAttribute("alt", "Bate papo uol");
+
+  const headerIcon = document.createElement("ion-icon");
+  headerIcon.setAttribute("name", "people");
+  headerIcon.setAttribute("onclick", "showSideMenu()");
+
+  div.appendChild(logo);
+  div.appendChild(headerIcon);
+
+  return div;
+}
+
+function makeContent() {
+  const div = document.createElement("div");
+  div.classList.add("content");
+
+  const ul = document.createElement("ul");
+
+  div.appendChild(ul);
+
+  return div;
+}
+
+function makeFooter() {
+  const footer = document.createElement("div");
+  footer.classList.add("footer");
+
+  const div = document.createElement("div");
+
+  const input = document.createElement("input");
+  input.setAttribute("type", "text");
+  input.setAttribute("placeholder", "Escreva aqui...");
+
+  const p = document.createElement("p");
+  p.innerHTML = "Enviando para <span>Todos</span> (<span>Público</span>)";
+
+  const footerIcon = document.createElement("ion-icon");
+  footerIcon.setAttribute("name", "paper-plane-outline");
+  footerIcon.setAttribute("onclick", "sendMessage()");
+
+  div.appendChild(input);
+  div.appendChild(p);
+
+  footer.appendChild(div);
+  footer.appendChild(footerIcon);
+
+  return footer;
+}
+
+function makeCover() {
+  const cover = document.createElement("div");
+  cover.classList.add("cover", "ocult");
+  cover.setAttribute("onclick", "hideSideMenu()");
+
+  return cover;
+}
+
+function renderLoginPage() {
+  const loginPageContainer = document.createElement("div");
+  loginPageContainer.classList.add("login", "ocult");
+
+  const div = document.createElement("div");
+
+  const logo = document.createElement("img");
+  logo.setAttribute("src", "./img/logo.svg");
+  logo.setAttribute("alt", "Bate papo uol");
+
+  const form = document.createElement("form");
+
+  const input = document.createElement("input");
+  input.setAttribute("type", "text");
+  input.setAttribute("id", "userName");
+  input.setAttribute("placeholder", "Digite seu nome");
+
+  const button = document.createElement("input");
+  button.setAttribute("type", "submit");
+  button.setAttribute("value", "Entrar");
+
+  div.appendChild(logo);
+
+  form.appendChild(input);
+  form.appendChild(button);
+
+  loginPageContainer.appendChild(div);
+  loginPageContainer.appendChild(form);
+
+  return loginPageContainer;
 }
