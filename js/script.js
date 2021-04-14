@@ -205,6 +205,7 @@ function getTimestamp() {
 }
 
 function scrollPage() {
-  const heightPage = document.body.scrollHeight;
-  window.scrollTo(0, heightPage);
+  const contentDiv = document.querySelector(".content");
+
+  contentDiv.scrollTo(0, contentDiv.scrollHeight);
 }
