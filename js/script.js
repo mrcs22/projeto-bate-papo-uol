@@ -180,6 +180,7 @@ function sendMessage() {
   };
 
   renderMessages([message]);
+  scrollPage();
   input.value = "";
 }
 
@@ -201,4 +202,9 @@ function getTimestamp() {
   }
 
   return `${hours}:${minutes}:${seconds}`;
+}
+
+function scrollPage() {
+  const heightPage = document.body.scrollHeight;
+  window.scrollTo(0, heightPage);
 }
