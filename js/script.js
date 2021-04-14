@@ -6,6 +6,13 @@ function start() {
 
   let messages = getMessages();
   renderMessages(messages);
+
+  const input = document.querySelector(".footer div input");
+  input.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      sendMessage();
+    }
+  });
 }
 
 function getOnlineUsers() {
@@ -150,4 +157,48 @@ function renderMessageParameters(item, itemType) {
   }
 
   parameterHolder.innerHTML = itemParameter;
+}
+
+function sendMessage() {
+  const input = document.querySelector(".footer div input");
+  const recipient = document.querySelector(".footer div p span:first-child");
+  const type = document.querySelector(".footer div p span:last-child");
+  let status = type.innerHTML;
+
+  if (status === "Reservadamente") {
+    status = "restricted";
+  }
+
+  const timestamp = getTimestamp();
+
+  const message = {
+    from: "Me",
+    to: recipient.innerHTML,
+    status: status,
+    timestamp: timestamp,
+    text: input.value,
+  };
+
+  renderMessages([message]);
+  input.value = "";
+}
+
+function getTimestamp() {
+  const now = new Date();
+
+  let hours = now.getHours();
+  let minutes = now.getMinutes();
+  let seconds = now.getSeconds();
+
+  if (hours < 10) {
+    hours = `0${hours}`;
+  }
+  if (minutes < 10) {
+    minutes = `0${minutes}`;
+  }
+  if (seconds < 10) {
+    seconds = `0${seconds}`;
+  }
+
+  return `${hours}:${minutes}:${seconds}`;
 }
