@@ -2,7 +2,64 @@ let whoami = null;
 
 start();
 
-function start() {}
+function start() {
+  renderLoginPage();
+}
+
+function renderLoginPage() {
+  const body = document.querySelector("body");
+  const loginPageContainer = document.createElement("div");
+  loginPageContainer.classList.add("login");
+
+  const div = document.createElement("div");
+
+  const logo = document.createElement("img");
+  logo.setAttribute("src", "./img/logo.svg");
+  logo.setAttribute("alt", "Bate papo uol");
+
+  const innerDiv = document.createElement("innerDiv");
+  innerDiv.classList.add("innerDiv");
+
+  const input = document.createElement("input");
+  input.setAttribute("type", "text");
+  input.setAttribute("id", "userName");
+  input.setAttribute("placeholder", "Digite seu nome");
+
+  const button = document.createElement("input");
+  button.setAttribute("type", "button");
+  button.setAttribute("value", "Entrar");
+  button.setAttribute("onclick", `tryLogin(this.previousSibling.value)`);
+
+  div.appendChild(logo);
+
+  innerDiv.appendChild(input);
+  innerDiv.appendChild(button);
+
+  loginPageContainer.appendChild(div);
+  loginPageContainer.appendChild(innerDiv);
+
+  body.appendChild(loginPageContainer);
+}
+
+function tryLogin(userName) {
+  whoami = userName;
+
+  const user = {
+    name: userName,
+  };
+
+  const response = axios.post(
+    "https://mock-api.bootcamp.respondeai.com.br/api/v2/uol/participants ",
+    user
+  );
+
+  response.then(() => {
+    const loginPage = document.querySelector(".login");
+    loginPage.classList.add("ocult");
+    whoami = userName;
+    openChat();
+  });
+}
 
 function openChat() {
   renderChat();
@@ -20,6 +77,7 @@ function openChat() {
 
   messagesLive();
   usersListLive();
+  sayImOnline();
 }
 
 async function renderOnlineUsers() {
@@ -69,6 +127,7 @@ async function renderMessages() {
   const messages = response.data.slice(80, 99);
 
   populateChat(messages);
+  scrollPage();
 }
 
 function populateChat(messages) {
@@ -187,8 +246,6 @@ function sendMessage() {
   );
 
   response.then(() => {
-    renderMessages();
-    scrollPage();
     input.value = "";
   });
 
@@ -272,42 +329,9 @@ function makeCover() {
   return cover;
 }
 
-function renderLoginPage() {
-  const loginPageContainer = document.createElement("div");
-  loginPageContainer.classList.add("login", "ocult");
-
-  const div = document.createElement("div");
-
-  const logo = document.createElement("img");
-  logo.setAttribute("src", "./img/logo.svg");
-  logo.setAttribute("alt", "Bate papo uol");
-
-  const form = document.createElement("form");
-
-  const input = document.createElement("input");
-  input.setAttribute("type", "text");
-  input.setAttribute("id", "userName");
-  input.setAttribute("placeholder", "Digite seu nome");
-
-  const button = document.createElement("input");
-  button.setAttribute("type", "submit");
-  button.setAttribute("value", "Entrar");
-
-  div.appendChild(logo);
-
-  form.appendChild(input);
-  form.appendChild(button);
-
-  loginPageContainer.appendChild(div);
-  loginPageContainer.appendChild(form);
-
-  return loginPageContainer;
-}
-
 function messagesLive() {
   const interval = setInterval(async () => {
     await renderMessages();
-    scrollPage();
   }, 3000);
 }
 
@@ -315,4 +339,23 @@ function usersListLive() {
   const interval = setInterval(async () => {
     await renderOnlineUsers();
   }, 10000);
+}
+
+function sayImOnline() {
+  const interval = setInterval(async () => {
+    const user = {
+      name: whoami,
+    };
+
+    const response = axios.post(
+      "https://mock-api.bootcamp.respondeai.com.br/api/v2/uol/status",
+      user
+    );
+
+    response.catch(() => {
+      window.location.reload();
+    });
+
+    response.then(() => {});
+  }, 5000);
 }
