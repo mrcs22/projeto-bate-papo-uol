@@ -18,15 +18,13 @@ function tryLogin(userName) {
     loginPage.classList.add("ocult");
     chatPage.classList.remove("ocult");
 
-    whoami = userName;
-    openChat();
+    startChat();
   });
 }
 
-function openChat() {
-  renderOnlineUsers();
-
+function startChat() {
   renderMessages();
+  renderOnlineUsers();
 
   const input = document.querySelector(".footer div input");
   input.addEventListener("keydown", (event) => {
@@ -45,8 +43,8 @@ async function renderOnlineUsers() {
     "https://mock-api.bootcamp.respondeai.com.br/api/v2/uol/participants "
   );
 
-  const todos = { name: "Todos" };
-  const users = [todos, ...response.data];
+  const referenceToAllUsers = { name: "Todos" };
+  const users = [referenceToAllUsers, ...response.data];
 
   populateUsersList(users);
 }
@@ -55,9 +53,11 @@ function populateUsersList(onlineUsers) {
   usersList = document.querySelector(".users ul");
 
   usersList.innerHTML = "";
+
   onlineUsers.forEach((user) => {
     let li = document.createElement("li");
     li.setAttribute("onclick", "selectMenuItem(this)");
+
     if (user.name === "Todos") {
       li.classList.add("selected");
     }
@@ -93,6 +93,8 @@ async function renderMessages() {
 function populateChat(messages) {
   let content = document.querySelector(".content");
   let messageHtml = null;
+
+  content.innerHTML = "";
 
   messages.forEach((message) => {
     if (message.type === "status") {
@@ -185,6 +187,10 @@ function sendMessage() {
   const recipient = document.querySelector(".footer div p span:first-child");
   const type = document.querySelector(".footer div p span:last-child");
   let status = type.innerHTML;
+
+  if (input.value == "") {
+    return;
+  }
 
   if (status === "Reservadamente") {
     status = "private_message";
