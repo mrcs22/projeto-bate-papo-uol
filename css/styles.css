@@ -3,6 +3,13 @@ body {
   font-family: "Roboto";
 }
 
+.chat {
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  left: 0;
+  top: 0;
+}
 .header {
   display: flex;
   width: 100%;
@@ -153,6 +160,7 @@ input:focus {
   width: 100vw;
   height: 800px;
   background-color: rgba(0, 0, 0, 0.6);
+  z-index: 99;
 }
 
 .sidebar {

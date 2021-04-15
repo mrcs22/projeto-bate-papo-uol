@@ -15,12 +15,51 @@
     <title>Bate papo Uol</title>
   </head>
   <body>
+    <div class="login">
+      <div>
+        <img src="./img/logo.svg" alt="Bate-papo uol" />
+      </div>
+      <div>
+        <input type="text" id="userName" placeholder="Digite seu nome" />
+
+        <input
+          type="button"
+          value="Entrar"
+          onclick="tryLogin(this.previousElementSibling.value)"
+        />
+      </div>
+    </div>
+    <div class="chat ocult">
+      <div class="header">
+        <img src="./img/logo.svg" alt="Bate-papo uol" />
+        <ion-icon name="people" onclick="showSideMenu()"></ion-icon>
+      </div>
+      <div class="content">
+        <ul> </ul>
+      </div>
+      <div class="footer">
+        <div>
+          <input type="text" placeholder="Escreva aqui..." />
+          <p>Enviando para <span>Todos</span> (<span>Público</span>)</p>
+        </div>
+        <ion-icon name="paper-plane-outline" onclick="sendMessage()"></ion-icon>
+      </div>
+    </div>
+
+    <div class="cover ocult" onclick="hideSideMenu()"></div>
+
     <div class="sidebar">
       <div>
         <strong>Escolha um contato para enviar mensagem:</strong>
       </div>
       <div class="users">
-        <ul class="onlineUsers"> </ul>
+        <ul class="onlineUsers">
+          <li class="selected" onclick="selectMenuItem(this)">
+            <ion-icon name="people"></ion-icon>
+            <span>Todos</span>
+            <img src="./img/check.svg" alt="" />
+          </li>
+        </ul>
       </div>
       <div class="visibility-title">
         <strong>Escolha a visibilidade:</strong>
