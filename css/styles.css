@@ -196,6 +196,10 @@ input:focus {
   padding: 0 20px;
   margin-bottom: 0;
 }
+.sidebar .onlineUsers {
+  max-height: 50vh;
+  overflow: scroll;
+}
 
 ul {
   width: 100%;
