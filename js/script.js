@@ -1,13 +1,15 @@
+let whoami = null;
+
 start();
 
-function start() {
+function start() {}
+
+function openChat() {
   renderChat();
 
-  let onlineUsers = getOnlineUsers();
-  renderOnlineUsers(onlineUsers);
+  renderOnlineUsers();
 
-  let messages = getMessages();
-  renderMessages(messages);
+  renderMessages();
 
   const input = document.querySelector(".footer div input");
   input.addEventListener("keydown", (event) => {
@@ -15,24 +17,38 @@ function start() {
       sendMessage();
     }
   });
+
+  messagesLive();
+  usersListLive();
 }
 
-function getOnlineUsers() {
-  return ["João", "Maria"];
+async function renderOnlineUsers() {
+  const response = await axios.get(
+    "https://mock-api.bootcamp.respondeai.com.br/api/v2/uol/participants "
+  );
+
+  const todos = { name: "Todos" };
+  const users = [todos, ...response.data];
+
+  populateUsersList(users);
 }
 
-function renderOnlineUsers(onlineUsers) {
+function populateUsersList(onlineUsers) {
   usersList = document.querySelector(".users ul");
 
+  usersList.innerHTML = "";
   onlineUsers.forEach((user) => {
     let li = document.createElement("li");
     li.setAttribute("onclick", "selectMenuItem(this)");
+    if (user.name === "Todos") {
+      li.classList.add("selected");
+    }
 
     let icon = document.createElement("ion-icon");
     icon.setAttribute("name", "person-circle-sharp");
 
     let span = document.createElement("span");
-    span.innerHTML = user;
+    span.innerHTML = user.name;
 
     let checkMark = document.createElement("img");
     checkMark.setAttribute("src", "./img/check.svg");
@@ -50,7 +66,9 @@ async function renderMessages() {
     "https://mock-api.bootcamp.respondeai.com.br/api/v2/uol/messages"
   );
 
-  populateChat(response.data);
+  const messages = response.data.slice(80, 99);
+
+  populateChat(messages);
 }
 
 function populateChat(messages) {
@@ -59,7 +77,7 @@ function populateChat(messages) {
 
   messages.forEach((message) => {
     if (message.type === "status") {
-      messageHtml = makeStausMessage(message);
+      messageHtml = makeStatusMessage(message);
     } else {
       messageHtml = makeUserMessage(message);
     }
@@ -68,7 +86,7 @@ function populateChat(messages) {
   });
 }
 
-function makeStausMessage(message) {
+function makeStatusMessage(message) {
   const statusMessage = `<li class=${message.type}>
           <p>
             <span> (${message.time}) </span>
@@ -150,42 +168,31 @@ function sendMessage() {
   let status = type.innerHTML;
 
   if (status === "Reservadamente") {
-    status = "restricted";
+    status = "private_message";
+  }
+  if (status === "Público") {
+    status = "message";
   }
 
-  const timestamp = getTimestamp();
-
   const message = {
-    from: "Me",
+    from: whoami,
     to: recipient.innerHTML,
-    status: status,
-    timestamp: timestamp,
+    type: status,
     text: input.value,
   };
 
-  renderMessages([message]);
-  scrollPage();
-  input.value = "";
-}
+  const response = axios.post(
+    "https://mock-api.bootcamp.respondeai.com.br/api/v2/uol/messages",
+    message
+  );
 
-function getTimestamp() {
-  const now = new Date();
+  response.then(() => {
+    renderMessages();
+    scrollPage();
+    input.value = "";
+  });
 
-  let hours = now.getHours();
-  let minutes = now.getMinutes();
-  let seconds = now.getSeconds();
-
-  if (hours < 10) {
-    hours = `0${hours}`;
-  }
-  if (minutes < 10) {
-    minutes = `0${minutes}`;
-  }
-  if (seconds < 10) {
-    seconds = `0${seconds}`;
-  }
-
-  return `${hours}:${minutes}:${seconds}`;
+  response.catch((err) => window.location.reload());
 }
 
 function scrollPage() {
@@ -295,4 +302,17 @@ function renderLoginPage() {
   loginPageContainer.appendChild(form);
 
   return loginPageContainer;
+}
+
+function messagesLive() {
+  const interval = setInterval(async () => {
+    await renderMessages();
+    scrollPage();
+  }, 3000);
+}
+
+function usersListLive() {
+  const interval = setInterval(async () => {
+    await renderOnlineUsers();
+  }, 10000);
 }
