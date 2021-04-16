@@ -9,7 +9,6 @@ function start() {
   const loginButton = document.querySelector(".innerDiv input:last-child");
 
   nameInput.addEventListener("keydown", (event) => {
-    console.log(event);
     if (event.key === "Enter") {
       tryLogin(nameInput.value);
     }
