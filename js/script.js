@@ -84,10 +84,26 @@ async function renderMessages() {
     "https://mock-api.bootcamp.respondeai.com.br/api/v2/uol/messages"
   );
 
-  const messages = response.data.slice(80, 100);
+  const messages = filterMessages(response.data);
 
   populateChat(messages);
   scrollPage();
+}
+
+function filterMessages(messages) {
+  const filteredMessages = messages.filter((message) => {
+    const isItFromMe = message.from === whoami;
+    const isItToMe = message.to === whoami;
+    const isItToAll = message.to === "Todos";
+
+    if (message.type === "private_message") {
+      return isItFromMe || isItToMe || isItToAll;
+    } else {
+      return true;
+    }
+  });
+
+  return filteredMessages;
 }
 
 function populateChat(messages) {
