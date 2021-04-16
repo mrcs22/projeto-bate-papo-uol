@@ -52,6 +52,10 @@ body {
   padding-right: 9px;
   border-radius: 2px;
 }
+
+.content li p {
+  word-break: break-all;
+}
 .content li span {
   color: #aaa;
 }
