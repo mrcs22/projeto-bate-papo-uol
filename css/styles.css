@@ -125,6 +125,30 @@ input:focus {
   width: 130px;
 }
 
+.login .warning {
+  color: #da3c1e;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.login .spinner {
+  border: 5px solid #dcdcdc;
+  border-left-color: #00cc99;
+  border-radius: 100%;
+  height: 50px;
+  width: 50px;
+  animation: loading 2s linear infinite;
+}
+
+@keyframes loading {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 .innerDiv {
   display: flex;
   flex-direction: column;

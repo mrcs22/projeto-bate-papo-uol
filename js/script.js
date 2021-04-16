@@ -1,6 +1,24 @@
 let whoami = null;
 
+start();
+
+function start() {
+  const nameInput = document.querySelector(".innerDiv input:first-child");
+  const loginButton = document.querySelector(".innerDiv input:last-child");
+
+  nameInput.addEventListener("keydown", (event) => {
+    console.log(event);
+    if (event.key === "Enter") {
+      tryLogin(nameInput.value);
+    }
+  });
+
+  loginButton.addEventListener("click", () => tryLogin(nameInput.value));
+}
+
 function tryLogin(userName) {
+  loadingAnimation("start");
+
   whoami = userName;
 
   const user = {
@@ -20,6 +38,28 @@ function tryLogin(userName) {
 
     startChat();
   });
+
+  response.catch(() => {
+    const warningMessage = document.querySelector(".warning");
+    loadingAnimation("stop");
+
+    warningMessage.classList.remove("ocult");
+  });
+}
+
+function loadingAnimation(action) {
+  const inputsDiv = document.querySelector(".innerDiv");
+  const spinner = document.querySelector(".spinner");
+
+  if (action === "start") {
+    inputsDiv.classList.add("ocult");
+    spinner.classList.remove("ocult");
+  }
+
+  if (action === "stop") {
+    inputsDiv.classList.remove("ocult");
+    spinner.classList.add("ocult");
+  }
 }
 
 function startChat() {
