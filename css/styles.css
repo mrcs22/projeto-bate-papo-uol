@@ -115,12 +115,6 @@ input:focus {
   flex-direction: column;
   align-items: center;
 }
-.login div:first-child {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 258px;
-}
 .login img {
   width: 130px;
 }
@@ -129,6 +123,13 @@ input:focus {
   color: #da3c1e;
   margin-bottom: 10px;
   font-size: 14px;
+}
+
+.login div:first-child {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 258px;
 }
 
 .login .spinner {
