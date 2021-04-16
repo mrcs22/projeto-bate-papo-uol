@@ -86,7 +86,24 @@ async function renderOnlineUsers() {
   const referenceToAllUsers = { name: "Todos" };
   const users = [referenceToAllUsers, ...response.data];
 
-  populateUsersList(users);
+  const finalUsersList = limitateUserNamesLength(users);
+
+  populateUsersList(finalUsersList);
+}
+
+function limitateUserNamesLength(usersList) {
+  const mapedUserList = usersList.map((user) => {
+    let name = user.name;
+    if (name.length > 15) {
+      name = name.substring(0, 16);
+      name += "...";
+
+      return { name: name };
+    } else {
+      return user;
+    }
+  });
+  return mapedUserList;
 }
 
 function populateUsersList(onlineUsers) {
