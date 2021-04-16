@@ -1,4 +1,6 @@
 let whoami = null;
+let selectedUser = "Todos";
+let selectedType = "Público";
 
 start();
 
@@ -115,7 +117,7 @@ function populateUsersList(onlineUsers) {
     let li = document.createElement("li");
     li.setAttribute("onclick", "selectMenuItem(this)");
 
-    if (user.name === "Todos") {
+    if (user.name === selectedUser) {
       li.classList.add("selected");
     }
 
@@ -236,7 +238,14 @@ function selectMenuItem(item) {
   let parentElement = item.parentElement;
   let lastSelectedItem = parentElement.querySelector(".selected");
 
-  lastSelectedItem.classList.remove("selected");
+  if (parentElement.classList.value === "onlineUsers") {
+    selectedUser = item.querySelector("span").innerHTML;
+  }
+
+  if (lastSelectedItem !== null) {
+    lastSelectedItem.classList.remove("selected");
+  }
+
   item.classList.add("selected");
 
   renderMessageParameters(item, parentElement.classList.value);
