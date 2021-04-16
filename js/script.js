@@ -35,6 +35,7 @@ function tryLogin(userName) {
   response.then(() => {
     const loginPage = document.querySelector(".login");
     const chatPage = document.querySelector(".chat");
+
     loginPage.classList.add("ocult");
     chatPage.classList.remove("ocult");
 
@@ -78,64 +79,6 @@ function startChat() {
   messagesLive();
   usersListLive();
   sayImOnline();
-}
-
-async function renderOnlineUsers() {
-  const response = await axios.get(
-    "https://mock-api.bootcamp.respondeai.com.br/api/v2/uol/participants "
-  );
-
-  const referenceToAllUsers = { name: "Todos" };
-  const users = [referenceToAllUsers, ...response.data];
-
-  const finalUsersList = limitateUserNamesLength(users);
-
-  populateUsersList(finalUsersList);
-}
-
-function limitateUserNamesLength(usersList) {
-  const mapedUserList = usersList.map((user) => {
-    let name = user.name;
-    if (name.length > 15) {
-      name = name.substring(0, 16);
-      name += "...";
-
-      return { name: name };
-    } else {
-      return user;
-    }
-  });
-  return mapedUserList;
-}
-
-function populateUsersList(onlineUsers) {
-  usersList = document.querySelector(".users ul");
-
-  usersList.innerHTML = "";
-
-  onlineUsers.forEach((user) => {
-    let li = document.createElement("li");
-    li.setAttribute("onclick", "selectMenuItem(this)");
-
-    if (user.name === selectedUser) {
-      li.classList.add("selected");
-    }
-
-    let icon = document.createElement("ion-icon");
-    icon.setAttribute("name", "person-circle-sharp");
-
-    let span = document.createElement("span");
-    span.innerHTML = user.name;
-
-    let checkMark = document.createElement("img");
-    checkMark.setAttribute("src", "./img/check.svg");
-
-    li.appendChild(icon);
-    li.appendChild(span);
-    li.appendChild(checkMark);
-
-    usersList.appendChild(li);
-  });
 }
 
 async function renderMessages() {
@@ -216,6 +159,68 @@ function makeUserMessage(message) {
   return userMessage;
 }
 
+function scrollPage() {
+  const contentDiv = document.querySelector(".content");
+  contentDiv.scrollTo(0, contentDiv.scrollHeight);
+}
+
+async function renderOnlineUsers() {
+  const response = await axios.get(
+    "https://mock-api.bootcamp.respondeai.com.br/api/v2/uol/participants "
+  );
+
+  const users = [{ name: "Todos" }, ...response.data];
+
+  const finalUsersList = limitateUserNamesLength(users);
+
+  populateUsersList(finalUsersList);
+}
+
+function limitateUserNamesLength(usersList) {
+  const mapedUserList = usersList.map((user) => {
+    let name = user.name;
+    if (name.length > 15) {
+      name = name.substring(0, 16);
+      name += "...";
+
+      return { name: name };
+    } else {
+      return user;
+    }
+  });
+  return mapedUserList;
+}
+
+function populateUsersList(onlineUsers) {
+  usersList = document.querySelector(".users ul");
+
+  usersList.innerHTML = "";
+
+  onlineUsers.forEach((user) => {
+    let li = document.createElement("li");
+    li.setAttribute("onclick", "selectMenuItem(this)");
+
+    if (user.name === selectedUser) {
+      li.classList.add("selected");
+    }
+
+    let icon = document.createElement("ion-icon");
+    icon.setAttribute("name", "person-circle-sharp");
+
+    let span = document.createElement("span");
+    span.innerHTML = user.name;
+
+    let checkMark = document.createElement("img");
+    checkMark.setAttribute("src", "./img/check.svg");
+
+    li.appendChild(icon);
+    li.appendChild(span);
+    li.appendChild(checkMark);
+
+    usersList.appendChild(li);
+  });
+}
+
 function showSideMenu() {
   const sidebar = document.querySelector(".sidebar");
   const cover = document.querySelector(".cover");
@@ -292,7 +297,9 @@ function sendMessage() {
     "https://mock-api.bootcamp.respondeai.com.br/api/v2/uol/messages",
     message
   );
+
   input.value = "";
+
   response.then(() => {
     renderMessages();
   });
@@ -300,26 +307,20 @@ function sendMessage() {
   response.catch(() => window.location.reload());
 }
 
-function scrollPage() {
-  const contentDiv = document.querySelector(".content");
-
-  contentDiv.scrollTo(0, contentDiv.scrollHeight);
-}
-
 function messagesLive() {
-  setInterval(async () => {
-    await renderMessages();
+  setInterval(() => {
+    renderMessages();
   }, 3000);
 }
 
 function usersListLive() {
-  setInterval(async () => {
-    await renderOnlineUsers();
+  setInterval(() => {
+    renderOnlineUsers();
   }, 10000);
 }
 
 function sayImOnline() {
-  setInterval(async () => {
+  setInterval(() => {
     const user = {
       name: whoami,
     };
